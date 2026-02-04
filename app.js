@@ -1,7 +1,9 @@
 const express = require("express");
 const path = require("path");
+
 const sessionMiddleware = require("./config/session");
 const authRoutes = require("./routes/authRoutes");
+const videosRoutes = require("./routes/videosRoutes");
 const requireAuth = require("./middleware/requireAuth");
 
 const app = express();
@@ -16,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 // sessions
 app.use(sessionMiddleware);
 
-// make user available in views
+// user in views
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
@@ -24,6 +26,7 @@ app.use((req, res, next) => {
 
 // routes
 app.use(authRoutes);
+app.use(videosRoutes);
 
 // protected home
 app.get("/", requireAuth, (req, res) => {

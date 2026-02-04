@@ -4,7 +4,11 @@ const path = require("path");
 const dbPath = path.join(__dirname, "..", "db.sqlite");
 const db = new sqlite3.Database(dbPath);
 
+// enable foreign keys
+db.run("PRAGMA foreign_keys = ON");
+
 db.serialize(() => {
+  // Users table
   db.run(`
     CREATE TABLE IF NOT EXISTS Users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -12,6 +16,21 @@ db.serialize(() => {
       fullName TEXT NOT NULL,
       passwordHash TEXT NOT NULL,
       createdAt TEXT NOT NULL
+    )
+  `);
+
+  // Favorites table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS Favorites (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      userId INTEGER NOT NULL,
+      videoId TEXT NOT NULL,
+      title TEXT NOT NULL,
+      channelTitle TEXT NOT NULL,
+      thumbnailUrl TEXT NOT NULL,
+      createdAt TEXT NOT NULL,
+      UNIQUE(userId, videoId),
+      FOREIGN KEY(userId) REFERENCES Users(id) ON DELETE CASCADE
     )
   `);
 });

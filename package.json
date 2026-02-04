@@ -5,7 +5,8 @@
     "ejs": "^3.1.10",
     "express": "^5.2.1",
     "express-session": "^1.18.2",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "yt-search": "^2.13.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
@@ -23,4 +24,3 @@
   "license": "ISC",
   "type": "commonjs"
 }
-
